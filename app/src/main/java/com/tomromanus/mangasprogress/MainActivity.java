@@ -187,33 +187,40 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    mainData.remove(position);
+                                    Item item = subData.get(position);
+                                    mainData.remove(item);
+                                    subData.remove(item);
                                     adapter.notifyItemRemoved(position);
                                 }
-                                adapter.notifyDataSetChanged();
                                 itemChanged();
                             }
                         });
         recyclerView.addOnItemTouchListener(swipeTouchListener);
 
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                int position_dragged = dragged.getBindingAdapterPosition();
-                int position_target = target.getBindingAdapterPosition();
+        if(subData.size() == mainData.size()) {
+            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+                    int position_dragged = dragged.getBindingAdapterPosition();
+                    int position_target = target.getBindingAdapterPosition();
 
-                Collections.swap(mainData, position_dragged, position_target);
+                    Collections.swap(mainData, position_dragged, position_target);
+                    Collections.swap(subData, position_dragged, position_target);
 
-                adapter.notifyItemMoved(position_dragged, position_target);
-                itemChanged();
+                    adapter.notifyItemMoved(position_dragged, position_target);
 
-                return false;
-            }
+                    btnSave.setTextColor(Color.RED);
+                    btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {}
-        });
-        helper.attachToRecyclerView(recyclerView);
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                }
+            });
+            helper.attachToRecyclerView(recyclerView);
+        }
     }
 
     private void itemChanged() {
