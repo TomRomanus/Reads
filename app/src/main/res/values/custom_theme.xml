@@ -3,13 +3,13 @@
     <!-- Base application theme. -->
     <style name="Theme.custom_theme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#2B303A</item>
+        <item name="colorPrimary">@color/gunmetal</item>
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/mint_cream</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/mint_cream</item>
-        <item name="colorSecondaryVariant">#333232</item>
-        <item name="colorOnSecondary">#AAAAAA</item>
+        <item name="colorSecondaryVariant">@color/jet</item>
+        <item name="colorOnSecondary">@color/silver_chalice</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
         <!-- Customize your theme here. -->

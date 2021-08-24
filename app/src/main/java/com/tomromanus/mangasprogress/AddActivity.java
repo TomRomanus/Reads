@@ -8,10 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 public class AddActivity extends AppCompatActivity {
     private TextView txtTitle, txtAmountEntered;
     private final DataHandler dataHandler = new TextFileDataHandler();

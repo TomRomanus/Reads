@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -20,44 +19,35 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
     private final ArrayList<Item> mainData = new ArrayList<>();
     private final ArrayList<Item> subData = new ArrayList<>();
-    private Button btnSave;
-    private TextView txtSearch;
+    private final DataHandler dataHandler = new TextFileDataHandler();
+
     private boolean isSearchActive;
     private int menuPosition;
+
+    private Button btnSave;
+    private TextView txtSearch;
     private MyAdapter adapter;
-    private final DataHandler dataHandler = new TextFileDataHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnSave = findViewById(R.id.btnSave);
-        txtSearch = findViewById(R.id.txtSearch);
-        txtSearch.setVisibility(View.GONE);
 
         mainData.addAll(dataHandler.getData(this));
         subData.addAll(mainData);
 
+        btnSave = findViewById(R.id.btnSave);
+        txtSearch = findViewById(R.id.txtSearch);
+        txtSearch.setVisibility(View.GONE);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
@@ -177,22 +167,17 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    mainData.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                }
-                                adapter.notifyDataSetChanged();
-                                itemChanged();
-                            }
-
-                            @Override
-                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
                                     Item item = subData.get(position);
                                     mainData.remove(item);
                                     subData.remove(item);
                                     adapter.notifyItemRemoved(position);
                                 }
                                 itemChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                onDismissedBySwipeLeft(recyclerView, reverseSortedPositions);
                             }
                         });
         recyclerView.addOnItemTouchListener(swipeTouchListener);
@@ -246,8 +231,10 @@ public class MainActivity extends AppCompatActivity {
         if(!isSearchActive) {
             txtSearch.setVisibility(View.VISIBLE);
             isSearchActive = true;
+
             if(txtSearch.length() != 0)
                 search(txtSearch.getText());
+
             txtSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

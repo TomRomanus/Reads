@@ -52,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.layout_item, parent, false);
-        return new ViewHolder(v, itemClickListener, menuItemClickListener, data);
+        return new ViewHolder(v, itemClickListener, menuItemClickListener);
     }
 
     @Override
@@ -69,7 +69,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
         if(item.isFinished()) {
             holder.cardView.setCardBackgroundColor(Color.parseColor("#ACB3C3"));
-            System.out.println(position + " | " + data.get(position).getTitle());
         }
     }
 
@@ -87,9 +86,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
         public ViewHolder(View itemView,
                           OnItemClickListener listener,
-                          PopupMenu.OnMenuItemClickListener menuItemClickListener,
-                          ArrayList<Item> data) {
-
+                          PopupMenu.OnMenuItemClickListener menuItemClickListener) {
             super(itemView);
 
             txtTitle = itemView.findViewById(R.id.txtTitleItem);
