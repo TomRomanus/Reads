@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -145,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                         mainData.get(menuPosition).toggleFinished();
                         adapter.dataChanged(mainData);
                         adapter.notifyItemChanged(menuPosition);
-                        //adapter.notifyDataSetChanged();
                         itemChanged();
                         return true;
 
@@ -253,6 +254,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             txtSearch.setVisibility(View.GONE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             isSearchActive = false;
             subData.clear();
             subData.addAll(mainData);
