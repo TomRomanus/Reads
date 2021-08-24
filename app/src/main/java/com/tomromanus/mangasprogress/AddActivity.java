@@ -58,13 +58,11 @@ public class AddActivity extends AppCompatActivity {
         char[] textArray = text.toCharArray();
         boolean foundSpace = true;
         for(int i=0; i< textArray.length; i++) {
-            if (Character.isLetter(textArray[i])) {
-                if (foundSpace) {
-                    textArray[i] = Character.toUpperCase(textArray[i]);
-                    foundSpace = false;
-                }
-            } else {
+            if (textArray[i] == ' ')
                 foundSpace = true;
+            else if (foundSpace) {
+                textArray[i] = Character.toUpperCase(textArray[i]);
+                foundSpace = false;
             }
         }
         return String.valueOf(textArray);
