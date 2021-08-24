@@ -12,8 +12,8 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_marginTop="13dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnAdd"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,8 +40,34 @@
         android:text="Save"
         app:icon="@drawable/ic_save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnAdd" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
+        android:onClick="onBtnSearchClicked"
+        android:text="Search"
+        app:icon="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSave" />
+
+    <EditText
+        android:id="@+id/txtSearch"
+        android:layout_width="365dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="2dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/mint_cream"
+        android:backgroundTint="@color/mint_cream"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
