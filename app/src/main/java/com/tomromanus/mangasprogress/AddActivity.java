@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 
 public class AddActivity extends AppCompatActivity {
     private TextView txtTitle, txtAmountEntered;
-    private static final String FILEPATH = "MansgasProgressData.txt";
+    private final DataHandler dataHandler = new TextFileDataHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,37 +47,15 @@ public class AddActivity extends AppCompatActivity {
             if(amountWatched.equals(""))
                 amountWatched = "0";
 
-            FileOutputStream fo = null;
-            PrintWriter pw = null;
-
-            try {
-                fo = openFileOutput(FILEPATH, MODE_APPEND);
-                pw = new PrintWriter(fo);
-
-                pw.println(title + "$" + amountWatched + "$False");
-
-                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            Item item = new Item(title, Integer.parseInt(amountWatched),false);
+            if(dataHandler.addData(item, this))
                 returnBoolean = true;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "unable to save please try again", Toast.LENGTH_LONG).show();
-
-            } finally {
-                try {
-                    assert pw != null;
-                    pw.close();
-                    fo.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return returnBoolean;
 
         } else {
             Toast.makeText(this, "Please fill in title", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return returnBoolean;
     }
 
     private String toUpperCase(String text) {

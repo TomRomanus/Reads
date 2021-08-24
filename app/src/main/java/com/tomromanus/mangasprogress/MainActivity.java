@@ -36,14 +36,14 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Item> mainData = new ArrayList<>();
-    private ArrayList<Item> subData = new ArrayList<>();
-    private static final String FILEPATH = "MansgasProgressData.txt";
+    private final ArrayList<Item> mainData = new ArrayList<>();
+    private final ArrayList<Item> subData = new ArrayList<>();
     private Button btnSave;
     private TextView txtSearch;
     private boolean isSearchActive;
     private int menuPosition;
     private MyAdapter adapter;
+    private final DataHandler dataHandler = new TextFileDataHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
         txtSearch = findViewById(R.id.txtSearch);
         txtSearch.setVisibility(View.GONE);
 
-        File file = new File(getApplicationContext().getFilesDir(),FILEPATH);
-        if(file.exists())
-            getFromFile();
+        mainData.addAll(dataHandler.getData(this));
         subData.addAll(mainData);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -229,6 +227,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onBtnSave_clicked(View view) {
+        if(dataHandler.saveData(mainData, this)) {
+            btnSave.setTextColor(Color.parseColor("#EFF6EE"));
+            btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save, 0, 0, 0);
+        }
+    }
+
     public void onBtnSearchClicked(View view) {
         if(!isSearchActive) {
             txtSearch.setVisibility(View.VISIBLE);
@@ -264,67 +269,5 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter.dataChanged(subData);
         adapter.notifyDataSetChanged();
-    }
-
-    public void onBtnSave_clicked(View view) {
-        FileOutputStream fo = null;
-        PrintWriter pw = null;
-
-        try {
-            fo = openFileOutput(FILEPATH, Context.MODE_PRIVATE);
-            pw = new PrintWriter(fo);
-
-            PrintWriter finalPw = pw;
-            mainData.forEach(i -> finalPw.println(i.getTitle() + "$" + i.getAmountWatched() + "$" + i.isFinished()));
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-            btnSave.setTextColor(Color.parseColor("#EFF6EE"));
-            btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save, 0, 0, 0);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "unable to save please try again", Toast.LENGTH_LONG).show();
-
-        } finally {
-            try {
-                assert pw != null;
-                pw.close();
-                fo.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
-    private void getFromFile() {
-        FileInputStream fis = null;
-
-        try {
-            fis = openFileInput(FILEPATH);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-
-            while((line = br.readLine()) != null) {
-                String[] lineData = line.split("\\$");
-                System.out.println(Arrays.toString(lineData) + mainData.size());
-                boolean finished = false;
-                if(lineData[2].equals("true"))
-                    finished = true;
-                mainData.add(new Item(lineData[0], Integer.parseInt(lineData[1]), finished));
-            }
-
-        } catch(Exception e) {
-            e.printStackTrace();
-
-        } finally {
-            try {
-                assert fis != null;
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
