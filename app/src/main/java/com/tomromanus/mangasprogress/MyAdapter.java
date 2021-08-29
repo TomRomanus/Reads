@@ -67,9 +67,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         if(item.getAmountWatched() > 0)
             holder.btnSubstractWatched.setEnabled(true);
 
-        if(item.isFinished()) {
+        if(item.isFinished())
             holder.cardView.setCardBackgroundColor(Color.parseColor("#ACB3C3"));
-        }
+        else
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#EFF6EE"));
     }
 
     @Override
