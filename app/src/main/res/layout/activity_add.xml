@@ -64,7 +64,7 @@
         android:layout_marginBottom="12dp"
         android:onClick="onBtnCancel_clicked"
         android:text="Cancel"
-        app:icon="@drawable/ic_back"
+        app:icon="@drawable/ic_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSaveAdd"
         app:layout_constraintHorizontal_bias="0.5"
