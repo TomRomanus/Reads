@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
                     adapter.notifyItemMoved(position_dragged, position_target);
 
-                    btnSave.setTextColor(Color.RED);
+                    btnSave.setTextColor(Color.parseColor("#EC0B43"));
                     btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
 
                     return false;
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void itemChanged() {
-        btnSave.setTextColor(Color.RED);
+        btnSave.setTextColor(Color.parseColor("#EC0B43"));
         btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
         adapter.dataChanged(subData);
         adapter.notifyDataSetChanged();
