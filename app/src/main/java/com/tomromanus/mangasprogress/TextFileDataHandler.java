@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class TextFileDataHandler implements DataHandler{
     private static final String FILEPATH = "MansgasProgressData.txt";
+    //[title, amountWatched, isFinished, type]
 
     @Override
     public boolean saveData(ArrayList<Item> data, Context context) {
@@ -26,7 +27,11 @@ public class TextFileDataHandler implements DataHandler{
             pw = new PrintWriter(fo);
 
             PrintWriter finalPw = pw;
-            data.forEach(i -> finalPw.println(i.getTitle() + "$" + i.getAmountWatched() + "$" + i.isFinished()));
+            data.forEach(i -> finalPw.println(
+                    i.getTitle() + "$" +
+                    i.getAmountWatched() + "$" +
+                    i.isFinished() + "$" +
+                    i.getType()));
             returnBoolean = true;
 
         } catch (Exception e) {
@@ -64,7 +69,7 @@ public class TextFileDataHandler implements DataHandler{
                     boolean finished = false;
                     if (lineData[2].equals("true"))
                         finished = true;
-                    data.add(new Item(lineData[0], Integer.parseInt(lineData[1]), finished));
+                    data.add(new Item(lineData[0], Integer.parseInt(lineData[1]), finished, lineData[3]));
                 }
 
             } catch (Exception e) {
@@ -85,8 +90,6 @@ public class TextFileDataHandler implements DataHandler{
     @Override
     public boolean addData(Item item, Context context) {
         boolean returnBoolean = false;
-        String title = item.getTitle();
-        String amountWatched = String.valueOf(item.getAmountWatched());
 
             FileOutputStream fo = null;
             PrintWriter pw = null;
@@ -95,7 +98,10 @@ public class TextFileDataHandler implements DataHandler{
                 fo = context.openFileOutput(FILEPATH, Context.MODE_APPEND);
                 pw = new PrintWriter(fo);
 
-                pw.println(title + "$" + amountWatched + "$False");
+                pw.println(item.getTitle() + "$" +
+                        String.valueOf(item.getAmountWatched()) +
+                        "$False" + "$" +
+                        item.getType());
 
                 Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
                 returnBoolean = true;

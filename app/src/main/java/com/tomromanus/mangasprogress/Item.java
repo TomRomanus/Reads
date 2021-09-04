@@ -4,11 +4,13 @@ public class Item {
     private final String title;
     private int amountWatched;
     private boolean finished;
+    private String type;
 
-    public Item(String title, int amountWatched, boolean finished) {
+    public Item(String title, int amountWatched, boolean finished, String type) {
         this.title = title;
         this.amountWatched = amountWatched;
         this.finished = finished;
+        this.type = type.toUpperCase();
     }
 
     public String getTitle() {
@@ -37,5 +39,16 @@ public class Item {
 
     public void toggleFinished() {
         finished = !finished;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void changeType() {
+        if(type.equals("M"))
+            type = "A";
+        else if(type.equals("A"))
+            type = "M";
     }
 }

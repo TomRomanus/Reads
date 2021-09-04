@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 Item item = subData.get(menuPosition);
                 switch (menuItem.getItemId()) {
                     case R.id.copyTitle:
-                        String text = mainData.get(menuPosition).getTitle();
+                        String text = subData.get(menuPosition).getTitle();
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText(text, text);
                         clipboard.setPrimaryClip(clip);
@@ -134,8 +134,15 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.finished:
-                        mainData.get(menuPosition).toggleFinished();
-                        adapter.dataChanged(mainData);
+                        subData.get(menuPosition).toggleFinished();
+                        adapter.dataChanged(subData);
+                        adapter.notifyItemChanged(menuPosition);
+                        itemChanged();
+                        return true;
+
+                    case R.id.switchType:
+                        subData.get(menuPosition).changeType();
+                        adapter.dataChanged(subData);
                         adapter.notifyItemChanged(menuPosition);
                         itemChanged();
                         return true;

@@ -59,6 +59,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         Item item = data.get(position);
 
+        holder.txtType.setText(item.getType());
         holder.txtTitle.setText(item.getTitle());
         holder.txtAmountWatched.setText(String.valueOf(item.getAmountWatched()));
 
@@ -80,7 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView txtTitle, txtAmountWatched;
+        public TextView txtTitle, txtAmountWatched, txtType;
         public Button btnSubstractWatched, btnAddWatched;
         public ImageButton btnMenu;
         public CardView cardView;
@@ -92,6 +93,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
             txtTitle = itemView.findViewById(R.id.txtTitleItem);
             txtAmountWatched = itemView.findViewById(R.id.txtAmountWatchedItem);
+            txtType = itemView.findViewById(R.id.txtType);
             btnSubstractWatched = itemView.findViewById(R.id.btnSubstractWatched);
             btnAddWatched = itemView.findViewById(R.id.btnAddWatched);
             btnMenu = itemView.findViewById(R.id.btnMenu);
