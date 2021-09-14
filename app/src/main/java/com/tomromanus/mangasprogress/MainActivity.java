@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
                     adapter.notifyItemMoved(position_dragged, position_target);
 
-                    btnSave.setTextColor(Color.parseColor("#EC0B43"));
+                    btnSave.setTextColor(getResources().getColor(R.color.red_munsell, getApplicationContext().getTheme()));
                     btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
 
                     return false;
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void itemChanged() {
-        btnSave.setTextColor(Color.parseColor("#EC0B43"));
+        btnSave.setTextColor(getResources().getColor(R.color.red_munsell, getApplicationContext().getTheme()));
         btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
         adapter.dataChanged(subData);
         adapter.notifyDataSetChanged();
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBtnSave_clicked(View view) {
         if(dataHandler.saveData(mainData, this)) {
-            btnSave.setTextColor(Color.parseColor("#EFF6EE"));
+            btnSave.setTextColor(getResources().getColor(R.color.mint_cream, getApplicationContext().getTheme()));
             btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save, 0, 0, 0);
         }
     }

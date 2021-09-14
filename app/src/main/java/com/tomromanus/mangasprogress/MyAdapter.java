@@ -1,7 +1,6 @@
 package com.tomromanus.mangasprogress;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,9 +68,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             holder.btnSubstractWatched.setEnabled(true);
 
         if(item.isFinished())
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#ACB3C3"));
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.cadet_blue_crayola, context.getTheme()));
         else
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#EFF6EE"));
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.mint_cream, context.getTheme()));
     }
 
     @Override
