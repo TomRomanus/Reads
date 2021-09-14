@@ -29,7 +29,7 @@ public class Item {
         amountWatched++;
     }
 
-    public void substractAmountWatched() {
+    public void subtractAmountWatched() {
         amountWatched--;
     }
 

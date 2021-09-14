@@ -22,8 +22,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     private PopupMenu.OnMenuItemClickListener menuItemClickListener;
 
     public interface OnItemClickListener {
-        void OnBtnSubstractWatchedClicked(int position);
-        void OnBtnSubstractWatchedLongClicked(int position);
+        void OnBtnSubtractWatchedClicked(int position);
+        void OnBtnSubtractWatchedLongClicked(int position);
         void OnBtnAddWatchedClicked(int position);
         void OnItemClicked(int position);
         void MenuPosition(int position);
@@ -63,9 +63,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.txtAmountWatched.setText(String.valueOf(item.getAmountWatched()));
 
         if(item.getAmountWatched() == 0)
-            holder.btnSubstractWatched.setEnabled(false);
+            holder.btnSubtractWatched.setEnabled(false);
         if(item.getAmountWatched() > 0)
-            holder.btnSubstractWatched.setEnabled(true);
+            holder.btnSubtractWatched.setEnabled(true);
 
         if(item.isFinished())
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.cadet_blue_crayola, context.getTheme()));
@@ -81,7 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView txtTitle, txtAmountWatched, txtType;
-        public Button btnSubstractWatched, btnAddWatched;
+        public Button btnSubtractWatched, btnAddWatched;
         public ImageButton btnMenu;
         public CardView cardView;
 
@@ -93,69 +93,54 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             txtTitle = itemView.findViewById(R.id.txtTitleItem);
             txtAmountWatched = itemView.findViewById(R.id.txtAmountWatchedItem);
             txtType = itemView.findViewById(R.id.txtType);
-            btnSubstractWatched = itemView.findViewById(R.id.btnSubstractWatched);
+            btnSubtractWatched = itemView.findViewById(R.id.btnSubstractWatched);
             btnAddWatched = itemView.findViewById(R.id.btnAddWatched);
             btnMenu = itemView.findViewById(R.id.btnMenu);
             cardView = itemView.findViewById(R.id.cardView);
 
-            btnMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null) {
-                        int position = getAbsoluteAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION) {
-                            listener.MenuPosition(position);
-                            showPopupMenu(v, menuItemClickListener);
-                        }
+            btnMenu.setOnClickListener(v -> {
+                if(listener != null) {
+                    int position = getAbsoluteAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION) {
+                        listener.MenuPosition(position);
+                        showPopupMenu(v, menuItemClickListener);
                     }
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if(listener != null) {
-                        int position = getAbsoluteAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION)
-                            listener.OnItemClicked(position);
-                    }
-                    return true;
+            itemView.setOnLongClickListener(v -> {
+                if(listener != null) {
+                    int position = getAbsoluteAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION)
+                        listener.OnItemClicked(position);
                 }
+                return true;
             });
 
-            btnAddWatched.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null) {
-                        int position = getAbsoluteAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION) {
-                            listener.OnBtnAddWatchedClicked(position);
-                        }
+            btnAddWatched.setOnClickListener(v -> {
+                if(listener != null) {
+                    int position = getAbsoluteAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION) {
+                        listener.OnBtnAddWatchedClicked(position);
                     }
                 }
             });
 
-            btnSubstractWatched.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null) {
-                        int position = getAbsoluteAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION)
-                            listener.OnBtnSubstractWatchedClicked(position);
-                    }
+            btnSubtractWatched.setOnClickListener(v -> {
+                if(listener != null) {
+                    int position = getAbsoluteAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION)
+                        listener.OnBtnSubtractWatchedClicked(position);
                 }
             });
 
-            btnSubstractWatched.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if(listener != null) {
-                        int position = getAbsoluteAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION)
-                            listener.OnBtnSubstractWatchedLongClicked(position);
-                    }
-                    return true;
+            btnSubtractWatched.setOnLongClickListener(v -> {
+                if(listener != null) {
+                    int position = getAbsoluteAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION)
+                        listener.OnBtnSubtractWatchedLongClicked(position);
                 }
+                return true;
             });
         }
 

@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class TextFileDataHandler implements DataHandler{
-    private static final String FILEPATH = "MansgasProgressData.txt";
+    private static final String FILEPATH = "MangasProgressData.txt";
     //[title, amountWatched, isFinished, type]
 
     @Override
@@ -99,7 +99,7 @@ public class TextFileDataHandler implements DataHandler{
                 pw = new PrintWriter(fo);
 
                 pw.println(item.getTitle() + "$" +
-                        String.valueOf(item.getAmountWatched()) +
+                        item.getAmountWatched() +
                         "$False" + "$" +
                         item.getType());
 

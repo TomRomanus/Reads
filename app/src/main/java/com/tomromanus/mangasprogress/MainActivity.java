@@ -12,7 +12,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,17 +56,17 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
-            public void OnBtnSubstractWatchedClicked(int position) {
+            public void OnBtnSubtractWatchedClicked(int position) {
                 Item item = subData.get(position);
                 int mainPosition = mainData.indexOf(item);
                 mainData.remove(item);
-                item.substractAmountWatched();
+                item.subtractAmountWatched();
                 mainData.add(mainPosition, item);
                 itemChanged();
             }
 
             @Override
-            public void OnBtnSubstractWatchedLongClicked(int position) {
+            public void OnBtnSubtractWatchedLongClicked(int position) {
                 Item item = subData.get(position);
                 int mainPosition = mainData.indexOf(item);
                 mainData.remove(item);
