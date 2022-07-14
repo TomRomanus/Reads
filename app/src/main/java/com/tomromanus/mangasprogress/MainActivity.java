@@ -1,276 +1,64 @@
 package com.tomromanus.mangasprogress;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collections;
+/*
+TODO:
+    - create a back button to go back to the main activity
+    - create a settings button to hide the watched or so
+    - remove the type char
+    - create a new activity to change the name
+ */
 
 public class MainActivity extends AppCompatActivity {
-    private final ArrayList<Item> mainData = new ArrayList<>();
-    private final ArrayList<Item> subData = new ArrayList<>();
-    private final DataHandler dataHandler = new TextFileDataHandler();
-
-    private boolean isSearchActive;
-    private int menuPosition;
-
-    private Button btnSave;
-    private TextView txtSearch;
-    private MyAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainData.addAll(dataHandler.getData(this));
-        subData.addAll(mainData);
-
-        btnSave = findViewById(R.id.btnSave);
-        txtSearch = findViewById(R.id.txtSearch);
-        txtSearch.setVisibility(View.GONE);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-
-        adapter = new MyAdapter(this, subData);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+        Button btnManga = findViewById(R.id.btnManga);
+        btnManga.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void OnBtnSubtractWatchedClicked(int position) {
-                Item item = subData.get(position);
-                int mainPosition = mainData.indexOf(item);
-                mainData.remove(item);
-                item.subtractAmountWatched();
-                mainData.add(mainPosition, item);
-                itemChanged();
-            }
-
-            @Override
-            public void OnBtnSubtractWatchedLongClicked(int position) {
-                Item item = subData.get(position);
-                int mainPosition = mainData.indexOf(item);
-                mainData.remove(item);
-                item.resetAmountWatched();
-                mainData.add(mainPosition, item);
-                itemChanged();
-            }
-
-            @Override
-            public void OnBtnAddWatchedClicked(int position) {
-                Item item = subData.get(position);
-                int mainPosition = mainData.indexOf(item);
-                mainData.remove(item);
-                item.addAmountWatched();
-                mainData.add(mainPosition, item);
-                itemChanged();
-            }
-
-            @Override
-            public void OnItemClicked(int position) {
-                String text = subData.get(position).getTitle();
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(text, text);
-                clipboard.setPrimaryClip(clip);
-            }
-
-            @Override
-            public void MenuPosition(int position) {
-                menuPosition = position;
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ListView.class);
+                intent.putExtra("type", "Mangas");
+                startActivity(intent);
             }
         });
 
-        adapter.setMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @SuppressLint("NonConstantResourceId")
+        Button btnAnime = findViewById(R.id.btnAnime);
+        btnAnime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Item item = subData.get(menuPosition);
-                switch (menuItem.getItemId()) {
-                    case R.id.copyTitle:
-                        String text = subData.get(menuPosition).getTitle();
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText(text, text);
-                        clipboard.setPrimaryClip(clip);
-                        return true;
-
-                    case R.id.moveToTop:
-                        subData.clear();
-                        subData.add(item);
-                        mainData.remove(item);
-                        subData.addAll(mainData);
-                        mainData.clear();
-                        mainData.addAll(subData);
-                        itemChanged();
-                        return true;
-
-                    case R.id.moveToBottom:
-                        subData.clear();
-                        mainData.remove(item);
-                        subData.addAll(mainData);
-                        subData.add(item);
-                        mainData.clear();
-                        mainData.addAll(subData);
-                        itemChanged();
-                        return true;
-
-                    case R.id.finished:
-                        subData.get(menuPosition).toggleFinished();
-                        adapter.dataChanged(subData);
-                        adapter.notifyItemChanged(menuPosition);
-                        itemChanged();
-                        return true;
-
-                    case R.id.switchType:
-                        subData.get(menuPosition).changeType();
-                        adapter.dataChanged(subData);
-                        adapter.notifyItemChanged(menuPosition);
-                        itemChanged();
-                        return true;
-
-                    case R.id.deleteItem:
-                        subData.remove(item);
-                        mainData.remove(item);
-                        itemChanged();
-                        return true;
-
-                    default: return false;
-                }
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ListView.class);
+                intent.putExtra("type", "Animes");
+                startActivity(intent);
             }
         });
 
-        SwipeableRecyclerViewTouchListener swipeTouchListener =
-                new SwipeableRecyclerViewTouchListener(recyclerView,
-                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
-                            @Override
-                            public boolean canSwipeLeft(int position) {
-                                return false;
-                            }
+        Button btnSeries = findViewById(R.id.btnSeries);
+        btnSeries.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ListView.class);
+                intent.putExtra("type", "Series");
+                startActivity(intent);
+            }
+        });
 
-                            @Override
-                            public boolean canSwipeRight(int position) {
-                                return true;
-                            }
-
-                            @Override
-                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    Item item = subData.get(position);
-                                    mainData.remove(item);
-                                    subData.remove(item);
-                                    adapter.notifyItemRemoved(position);
-                                }
-                                itemChanged();
-                            }
-
-                            @Override
-                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                onDismissedBySwipeLeft(recyclerView, reverseSortedPositions);
-                            }
-                        });
-        recyclerView.addOnItemTouchListener(swipeTouchListener);
-
-        if(subData.size() == mainData.size()) {
-            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-                @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                    int position_dragged = dragged.getBindingAdapterPosition();
-                    int position_target = target.getBindingAdapterPosition();
-
-                    Collections.swap(mainData, position_dragged, position_target);
-                    Collections.swap(subData, position_dragged, position_target);
-
-                    adapter.notifyItemMoved(position_dragged, position_target);
-
-                    btnSave.setTextColor(getResources().getColor(R.color.red_munsell, getApplicationContext().getTheme()));
-                    btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
-
-                    return false;
-                }
-
-                @Override
-                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                }
-            });
-            helper.attachToRecyclerView(recyclerView);
-        }
-    }
-
-    private void itemChanged() {
-        btnSave.setTextColor(getResources().getColor(R.color.red_munsell, getApplicationContext().getTheme()));
-        btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
-        adapter.dataChanged(subData);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void onBtnAdd_clicked(View view) {
-        Intent intent = new Intent(this, AddActivity.class);
-        startActivity(intent);
-    }
-
-    public void onBtnSave_clicked(View view) {
-        if(dataHandler.saveData(mainData, this)) {
-            btnSave.setTextColor(getResources().getColor(R.color.mint_cream, getApplicationContext().getTheme()));
-            btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save, 0, 0, 0);
-        }
-    }
-
-    public void onBtnSearchClicked(View view) {
-        if(!isSearchActive) {
-            txtSearch.setVisibility(View.VISIBLE);
-            isSearchActive = true;
-
-            if(txtSearch.length() != 0)
-                search(txtSearch.getText());
-
-            txtSearch.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    search(s);
-                }
-                @Override
-                public void afterTextChanged(Editable s) {}
-            });
-        }
-        else {
-            txtSearch.setVisibility(View.GONE);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            isSearchActive = false;
-            subData.clear();
-            subData.addAll(mainData);
-            adapter.dataChanged(subData);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    private void search(CharSequence s) {
-        subData.clear();
-        for (Item item : mainData) {
-            if (item.getTitle().toLowerCase().contains(s.toString().toLowerCase()))
-                subData.add(item);
-        }
-        adapter.dataChanged(subData);
-        adapter.notifyDataSetChanged();
+        Button btnBooks = findViewById(R.id.btnBooks);
+        btnBooks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ListView.class);
+                intent.putExtra("type", "Books");
+                startActivity(intent);
+            }
+        });
     }
 }

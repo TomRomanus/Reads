@@ -6,68 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtSearch"
+    <Button
+        android:id="@+id/btnManga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manga"
+        app:layout_constraintBottom_toTopOf="@+id/btnAnime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnSeries"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="12dp"
-        android:onClick="onBtnAdd_clicked"
-        android:text="Add"
-        app:icon="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSave"
+        android:layout_height="wrap_content"
+        android:text="Series"
+        app:layout_constraintBottom_toTopOf="@+id/btnBooks"
+        app:layout_constraintEnd_toEndOf="@+id/btnAnime"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/btnAnime"
+        app:layout_constraintTop_toBottomOf="@+id/btnAnime" />
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/btnAnime"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="12dp"
-        android:onClick="onBtnSave_clicked"
-        android:text="Save"
-        app:icon="@drawable/ic_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+        android:layout_height="wrap_content"
+        android:text="anime"
+        app:layout_constraintBottom_toTopOf="@+id/btnSeries"
+        app:layout_constraintEnd_toEndOf="@+id/btnManga"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnAdd" />
+        app:layout_constraintStart_toStartOf="@+id/btnManga"
+        app:layout_constraintTop_toBottomOf="@+id/btnManga" />
 
     <Button
-        android:id="@+id/btnSearch"
+        android:id="@+id/btnBooks"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="12dp"
-        android:onClick="onBtnSearchClicked"
-        android:text="Search"
-        app:icon="@drawable/ic_search"
+        android:layout_height="wrap_content"
+        android:text="Books"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnSeries"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnSave" />
-
-    <EditText
-        android:id="@+id/txtSearch"
-        android:layout_width="365dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="2dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/btnSave"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/mint_cream"
-        android:backgroundTint="@color/mint_cream"/>
-
+        app:layout_constraintStart_toStartOf="@+id/btnSeries"
+        app:layout_constraintTop_toBottomOf="@+id/btnSeries" />
 </androidx.constraintlayout.widget.ConstraintLayout>

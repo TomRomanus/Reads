@@ -9,10 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.custom_theme">
-        <activity android:windowSoftInputMode="adjustResize"
-            android:name=".AddActivity" />
-        <activity android:windowSoftInputMode="adjustResize"
-            android:name=".MainActivity">
+        <activity
+            android:name=".ListView"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".AddActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"/>
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

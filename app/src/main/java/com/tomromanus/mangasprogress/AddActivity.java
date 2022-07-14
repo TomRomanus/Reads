@@ -9,15 +9,21 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class AddActivity extends AppCompatActivity {
     private TextView txtTitle, txtAmountEntered;
     private Switch swMangaAnime;
-    private final DataHandler dataHandler = new TextFileDataHandler();
+    private DataHandler dataHandler;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        type = getIntent().getStringExtra("type");
+        dataHandler = new TextFileDataHandler(type);
 
         txtTitle = findViewById(R.id.txtTitle);
         txtAmountEntered = findViewById(R.id.txtAmountEntered);
@@ -25,13 +31,15 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void onBtnCancel_clicked(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ListView.class);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
 
     public void onBtnSaveAdd_clicked(View view) {
         if(saveToFile()) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, ListView.class);
+            intent.putExtra("type", type);
             startActivity(intent);
         }
     }

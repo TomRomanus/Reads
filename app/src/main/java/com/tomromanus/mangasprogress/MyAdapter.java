@@ -25,7 +25,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         void OnBtnSubtractWatchedClicked(int position);
         void OnBtnSubtractWatchedLongClicked(int position);
         void OnBtnAddWatchedClicked(int position);
-        void OnItemClicked(int position);
         void MenuPosition(int position);
     }
 
@@ -106,15 +105,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                         showPopupMenu(v, menuItemClickListener);
                     }
                 }
-            });
-
-            itemView.setOnLongClickListener(v -> {
-                if(listener != null) {
-                    int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION)
-                        listener.OnItemClicked(position);
-                }
-                return true;
             });
 
             btnAddWatched.setOnClickListener(v -> {

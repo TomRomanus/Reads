@@ -13,8 +13,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class TextFileDataHandler implements DataHandler{
-    private static final String FILEPATH = "MangasProgressData.txt";
+    private String filepath = "ProgressData.txt";
     //[title, amountWatched, isFinished, type]
+
+
+    public TextFileDataHandler(String type) {
+        //System.out.println(type + filepath);
+        this.filepath = type + filepath;
+    }
 
     @Override
     public boolean saveData(ArrayList<Item> data, Context context) {
@@ -23,7 +29,7 @@ public class TextFileDataHandler implements DataHandler{
         boolean returnBoolean = false;
 
         try {
-            fo = context.openFileOutput(FILEPATH, Context.MODE_PRIVATE);
+            fo = context.openFileOutput(filepath, Context.MODE_PRIVATE);
             pw = new PrintWriter(fo);
 
             PrintWriter finalPw = pw;
@@ -54,12 +60,12 @@ public class TextFileDataHandler implements DataHandler{
     public ArrayList<Item> getData(Context context) {
         ArrayList<Item> data = new ArrayList<>();
 
-        File file = new File(context.getApplicationContext().getFilesDir(),FILEPATH);
+        File file = new File(context.getApplicationContext().getFilesDir(), filepath);
         if(file.exists()) {
             FileInputStream fis = null;
 
             try {
-                fis = context.openFileInput(FILEPATH);
+                fis = context.openFileInput(filepath);
                 InputStreamReader isr = new InputStreamReader(fis);
                 BufferedReader br = new BufferedReader(isr);
                 String line;
@@ -95,7 +101,7 @@ public class TextFileDataHandler implements DataHandler{
             PrintWriter pw = null;
 
             try {
-                fo = context.openFileOutput(FILEPATH, Context.MODE_APPEND);
+                fo = context.openFileOutput(filepath, Context.MODE_APPEND);
                 pw = new PrintWriter(fo);
 
                 pw.println(item.getTitle() + "$" +
