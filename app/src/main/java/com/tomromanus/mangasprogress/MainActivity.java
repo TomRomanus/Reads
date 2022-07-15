@@ -9,8 +9,7 @@ import android.widget.Button;
 
 /*
 TODO:
-    - create a revert changes button
-    - create a new activity to change the name
+    - Change the main buttons
  */
 
 public class MainActivity extends AppCompatActivity {

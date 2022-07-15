@@ -8,4 +8,5 @@
     <string name="finished">Finished</string>
     <string name="switch_type">Switch type</string>
     <string name="delete">Delete</string>
+    <string name="change_title">Change Title</string>
 </resources>

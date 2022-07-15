@@ -4,6 +4,10 @@
         android:id="@+id/copyTitle"
         android:title="@string/copy_title" />
 
+    <item
+        android:id="@+id/changeTitle"
+        android:title="@string/change_title" />
+
     <item android:id="@+id/moveToTop"
         android:title="@string/move_to_top" />
 

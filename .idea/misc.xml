@@ -4,9 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/drawable/ic_cancel.xml" value="0.20052083333333334" />
+        <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/drawable/ic_save.xml" value="0.2645" />
+        <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/drawable/ic_search.xml" value="0.2645" />
+        <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/drawable/mybackground.xml" value="0.2645" />
         <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/layout/activity_add.xml" value="0.22" />
         <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/layout/activity_list_view.xml" value="0.259375" />
         <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/layout/activity_main.xml" value="0.259375" />
+        <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/layout/layout_change_title.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/layout/layout_item.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/Lenovo/StudioProjects/Reads/app/src/main/res/menu/popup_menu.xml" value="0.184375" />
       </map>

@@ -1,7 +1,7 @@
 package com.tomromanus.mangasprogress;
 
 public class Item {
-    private final String title;
+    private String title;
     private int amountWatched;
     private boolean finished;
 
@@ -13,6 +13,11 @@ public class Item {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title){
+        if(title.isEmpty()) return;
+        this.title = title;
     }
 
     public int getAmountWatched() {

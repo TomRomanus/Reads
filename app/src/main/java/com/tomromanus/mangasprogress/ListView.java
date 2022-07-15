@@ -1,6 +1,7 @@
 package com.tomromanus.mangasprogress;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -15,12 +16,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -39,6 +41,8 @@ public class ListView extends AppCompatActivity {
     private Button btnSave;
     private TextView txtSearch;
     private MyAdapter adapter;
+
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,35 @@ public class ListView extends AppCompatActivity {
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText(text, text);
                         clipboard.setPrimaryClip(clip);
+                        return true;
+
+                    case R.id.changeTitle:
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                        View alertCustomdialog = LayoutInflater.from(ListView.this).inflate(R.layout.layout_change_title,null);
+                        dialogBuilder.setView(alertCustomdialog);
+                        AlertDialog alertDialog = dialogBuilder.create();
+                        alertDialog.show();
+
+                        EditText input = (EditText) alertCustomdialog.findViewById(R.id.txtChangeTitle);
+                        input.setText(searchData.get(menuPosition).getTitle());
+                        Button btnSet = (Button) alertCustomdialog.findViewById(R.id.btnSetTitle);
+                        Button btnCancel = (Button) alertCustomdialog.findViewById(R.id.btnCancelTitle);
+
+                        btnSet.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                searchData.get(menuPosition).setTitle(input.getText().toString());
+                                itemChanged();
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
                         return true;
 
                     case R.id.moveToTop:
@@ -222,6 +255,17 @@ public class ListView extends AppCompatActivity {
                         }});
             snackbar.show();
         }
+    }
+
+    public void onBtnRevert_clicked(View view) {
+        mainData.clear();
+        searchData.clear();
+        mainData.addAll(dataHandler.getData(this));
+        searchData.addAll(mainData);
+        adapter.dataChanged(searchData);
+        adapter.notifyDataSetChanged();
+        btnSave.setTextColor(getResources().getColor(R.color.mint_cream, getApplicationContext().getTheme()));
+        btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save, 0, 0, 0);
     }
 
     public void onBtnAdd_clicked(View view) {

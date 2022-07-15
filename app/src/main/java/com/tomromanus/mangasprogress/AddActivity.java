@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 public class AddActivity extends AppCompatActivity {
-    private TextView txtTitle, txtAmountEntered;
+    private TextView txtTitle;
+    private TextView txtAmountEntered;
     private String type;
     private DataHandler dataHandler;
 
@@ -21,11 +19,16 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
+        txtTitle = findViewById(R.id.txtTitle);
+        txtAmountEntered = findViewById(R.id.txtAmountEntered);
+        TextView txtAmountRead = findViewById(R.id.txtAmountRead);
+
         type = getIntent().getStringExtra("type");
         dataHandler = new TextFileDataHandler(type);
 
-        txtTitle = findViewById(R.id.txtTitle);
-        txtAmountEntered = findViewById(R.id.txtAmountEntered);
+        if(type.equals("Animes") || type.equals("Series")) txtAmountRead.setText("Episodes watched");
+        else if(type.equals("Books")) txtAmountRead.setText("Pages read");
+        else txtAmountRead.setText("Chapters read");
     }
 
     public void onBtnCancel_clicked(View view) {
@@ -35,11 +38,11 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void onBtnSaveAdd_clicked(View view) {
-        if(saveToFile()) {
-            Intent intent = new Intent(this, ListView.class);
-            intent.putExtra("type", type);
-            startActivity(intent);
-        }
+            if (saveToFile()) {
+                Intent intent = new Intent(this, ListView.class);
+                intent.putExtra("type", type);
+                startActivity(intent);
+            }
     }
 
     private boolean saveToFile() {

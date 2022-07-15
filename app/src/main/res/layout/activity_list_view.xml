@@ -76,8 +76,20 @@
         android:layout_marginTop="12dp"
         android:onClick="onBtnBack_clicked"
         android:text="Back"
-        app:icon="?attr/actionModeCloseDrawable"
+        app:icon="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="@+id/btnAdd"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnRevertChanges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:onClick="onBtnRevert_clicked"
+        android:text="Revert Changes"
+        app:icon="@drawable/ic_revert"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="@+id/btnSearch"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
