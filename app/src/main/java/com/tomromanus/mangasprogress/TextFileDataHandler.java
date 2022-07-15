@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class TextFileDataHandler implements DataHandler{
     private String filepath = "ProgressData.txt";
-    //[title, amountWatched, isFinished, type]
+    //[title, amountWatched, isFinished]
 
 
     public TextFileDataHandler(String type) {
@@ -36,8 +36,7 @@ public class TextFileDataHandler implements DataHandler{
             data.forEach(i -> finalPw.println(
                     i.getTitle() + "$" +
                     i.getAmountWatched() + "$" +
-                    i.isFinished() + "$" +
-                    i.getType()));
+                    i.isFinished()));
             returnBoolean = true;
 
         } catch (Exception e) {
@@ -75,7 +74,7 @@ public class TextFileDataHandler implements DataHandler{
                     boolean finished = false;
                     if (lineData[2].equals("true"))
                         finished = true;
-                    data.add(new Item(lineData[0], Integer.parseInt(lineData[1]), finished, lineData[3]));
+                    data.add(new Item(lineData[0], Integer.parseInt(lineData[1]), finished));
                 }
 
             } catch (Exception e) {
@@ -95,36 +94,9 @@ public class TextFileDataHandler implements DataHandler{
 
     @Override
     public boolean addData(Item item, Context context) {
-        boolean returnBoolean = false;
-
-            FileOutputStream fo = null;
-            PrintWriter pw = null;
-
-            try {
-                fo = context.openFileOutput(filepath, Context.MODE_APPEND);
-                pw = new PrintWriter(fo);
-
-                pw.println(item.getTitle() + "$" +
-                        item.getAmountWatched() +
-                        "$False" + "$" +
-                        item.getType());
-
-                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-                returnBoolean = true;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(context, "unable to save please try again", Toast.LENGTH_LONG).show();
-
-            } finally {
-                try {
-                    assert pw != null;
-                    pw.close();
-                    fo.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return returnBoolean;
+        ArrayList<Item> tempList = new ArrayList<>();
+        tempList.add(item);
+        tempList.addAll(getData(context));
+        return saveData(tempList, context);
     }
 }

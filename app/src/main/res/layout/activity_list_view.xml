@@ -11,12 +11,11 @@
         android:layout_width="409dp"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginTop="13dp"
         android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toTopOf="@+id/txtSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
 
     <Button
         android:id="@+id/btnAdd"
@@ -69,5 +68,16 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/mint_cream"
         android:backgroundTint="@color/mint_cream"/>
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:onClick="onBtnBack_clicked"
+        android:text="Back"
+        app:icon="?attr/actionModeCloseDrawable"
+        app:layout_constraintStart_toStartOf="@+id/btnAdd"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

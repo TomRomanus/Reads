@@ -13,9 +13,8 @@ import java.util.List;
 
 public class AddActivity extends AppCompatActivity {
     private TextView txtTitle, txtAmountEntered;
-    private Switch swMangaAnime;
-    private DataHandler dataHandler;
     private String type;
+    private DataHandler dataHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,6 @@ public class AddActivity extends AppCompatActivity {
 
         txtTitle = findViewById(R.id.txtTitle);
         txtAmountEntered = findViewById(R.id.txtAmountEntered);
-        swMangaAnime = findViewById(R.id.swMangaAnime);
     }
 
     public void onBtnCancel_clicked(View view) {
@@ -48,18 +46,13 @@ public class AddActivity extends AppCompatActivity {
         boolean returnBoolean = false;
         String title = txtTitle.getText().toString();
         String amountWatched = txtAmountEntered.getText().toString();
-        String type;
-
-        if(swMangaAnime.isChecked())
-            type = "A";
-        else type = "M";
 
         if (!title.equals("")) {
             title = toUpperCase(title);
             if(amountWatched.equals(""))
                 amountWatched = "0";
 
-            Item item = new Item(title, Integer.parseInt(amountWatched),false, type);
+            Item item = new Item(title, Integer.parseInt(amountWatched),false);
             if(dataHandler.addData(item, this))
                 returnBoolean = true;
 

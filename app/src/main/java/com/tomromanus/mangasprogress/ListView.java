@@ -20,6 +20,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -126,13 +129,6 @@ public class ListView extends AppCompatActivity {
                         itemChanged();
                         return true;
 
-                    case R.id.switchType:
-                        searchData.get(menuPosition).changeType();
-                        adapter.dataChanged(searchData);
-                        adapter.notifyItemChanged(menuPosition);
-                        itemChanged();
-                        return true;
-
                     case R.id.deleteItem:
                         searchData.remove(item);
                         mainData.remove(item);
@@ -208,6 +204,26 @@ public class ListView extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    public void onBtnBack_clicked(View view) {
+        Snackbar snackbar = Snackbar.make(view, "Saving...", Snackbar.LENGTH_SHORT);
+        snackbar.show();
+        if(dataHandler.saveData(mainData, this)) {
+            snackbar.dismiss();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        else {
+            snackbar = Snackbar
+                    .make(view, "Unable to save", Snackbar.LENGTH_LONG)
+                    .setAction("retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onBtnBack_clicked(view);
+                        }});
+            snackbar.show();
+        }
+    }
+
     public void onBtnAdd_clicked(View view) {
         Intent intent = new Intent(this, AddActivity.class);
         intent.putExtra("type", type);
@@ -215,9 +231,22 @@ public class ListView extends AppCompatActivity {
     }
 
     public void onBtnSave_clicked(View view) {
+        Snackbar snackbar = Snackbar.make(view, "Saving...", Snackbar.LENGTH_SHORT);
+        snackbar.show();
         if(dataHandler.saveData(mainData, this)) {
+            snackbar.dismiss();
             btnSave.setTextColor(getResources().getColor(R.color.mint_cream, getApplicationContext().getTheme()));
             btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save, 0, 0, 0);
+        }
+        else {
+            snackbar = Snackbar
+                    .make(view, "Unable to save", Snackbar.LENGTH_LONG)
+                    .setAction("retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onBtnSave_clicked(view);
+                        }});
+            snackbar.show();
         }
     }
 

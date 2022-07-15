@@ -14,10 +14,6 @@
         android:id="@+id/finished"
         android:title="@string/finished" />
 
-    <item
-        android:id="@+id/switchType"
-        android:title="@string/switch_type" />
-
     <item android:id="@+id/deleteItem"
         android:title="@string/delete" />
 </menu>

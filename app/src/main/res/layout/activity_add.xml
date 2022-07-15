@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swMangaAnime" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/txtAmountEntered"
@@ -77,35 +77,5 @@
         android:textColor="@color/mint_cream"
         app:layout_constraintBottom_toTopOf="@+id/txtTitle"
         app:layout_constraintStart_toStartOf="@+id/txtTitle" />
-
-    <Switch
-        android:id="@+id/swMangaAnime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/txtTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtSwitchManga"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Manga"
-        android:textColor="@color/mint_cream"
-        app:layout_constraintBottom_toBottomOf="@+id/swMangaAnime"
-        app:layout_constraintEnd_toStartOf="@+id/swMangaAnime"
-        app:layout_constraintTop_toTopOf="@+id/swMangaAnime" />
-
-    <TextView
-        android:id="@+id/txtSwitchAnime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Anime"
-        android:textColor="@color/mint_cream"
-        app:layout_constraintBottom_toBottomOf="@+id/swMangaAnime"
-        app:layout_constraintStart_toEndOf="@+id/swMangaAnime"
-        app:layout_constraintTop_toTopOf="@+id/swMangaAnime" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

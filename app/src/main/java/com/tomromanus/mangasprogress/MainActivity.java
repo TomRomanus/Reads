@@ -9,9 +9,7 @@ import android.widget.Button;
 
 /*
 TODO:
-    - create a back button to go back to the main activity
-    - create a settings button to hide the watched or so
-    - remove the type char
+    - create a revert changes button
     - create a new activity to change the name
  */
 
