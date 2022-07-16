@@ -7,11 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-/*
-TODO:
-    - Change the main buttons
- */
-
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -25,7 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         void OnBtnSubtractWatchedClicked(int position);
         void OnBtnSubtractWatchedLongClicked(int position);
         void OnBtnAddWatchedClicked(int position);
-        void MenuPosition(int position);
+        void OnBtnMenuClicked(int position);
     }
 
     public void dataChanged(ArrayList<Item> data) {
@@ -99,8 +99,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 if(listener != null) {
                     int position = getAbsoluteAdapterPosition();
                     if(position != RecyclerView.NO_POSITION) {
-                        listener.MenuPosition(position);
-                        showPopupMenu(v, menuItemClickListener);
+                        listener.OnBtnMenuClicked(position);
                     }
                 }
             });
@@ -130,13 +129,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 }
                 return true;
             });
-        }
-
-        private void showPopupMenu(View view, PopupMenu.OnMenuItemClickListener menuItemClickListener) {
-            PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-            popupMenu.inflate(R.menu.popup_menu);
-            popupMenu.setOnMenuItemClickListener(menuItemClickListener);
-            popupMenu.show();
         }
     }
 }

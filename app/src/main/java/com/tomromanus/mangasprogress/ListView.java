@@ -36,7 +36,6 @@ public class ListView extends AppCompatActivity {
     private String type;
 
     private boolean isSearchActive;
-    private int menuPosition;
 
     private Button btnSave;
     private TextView txtSearch;
@@ -88,25 +87,41 @@ public class ListView extends AppCompatActivity {
             }
 
             @Override
-            public void MenuPosition(int position) {
-                menuPosition = position;
-            }
-        });
+            public void OnBtnMenuClicked(int position) {
+                Item item = searchData.get(position);
 
-        adapter.setMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Item item = searchData.get(menuPosition);
-                switch (menuItem.getItemId()) {
-                    case R.id.copyTitle:
-                        String text = searchData.get(menuPosition).getTitle();
+                AlertDialog.Builder menuDialogBuilder = new AlertDialog.Builder(context);
+                View menuAlertCustomdialog = LayoutInflater.from(ListView.this).inflate(R.layout.layout_item_menu,null);
+                menuAlertCustomdialog.setElevation(100);
+                menuDialogBuilder.setView(menuAlertCustomdialog);
+                AlertDialog menuAlertDialog = menuDialogBuilder.create();
+                menuAlertDialog.show();
+
+                TextView txtMenuTitle = (TextView) menuAlertCustomdialog.findViewById(R.id.txtMenuTitle);
+                txtMenuTitle.setText(item.getTitle());
+
+                Button btnCopyTitle = (Button) menuAlertCustomdialog.findViewById(R.id.btnCopyTitle);
+                Button btnChangeTitle = (Button) menuAlertCustomdialog.findViewById(R.id.btnChangeTitle);
+                Button btnMoveToTop = (Button) menuAlertCustomdialog.findViewById(R.id.btnMoveToTop);
+                Button btnMoveToBottom = (Button) menuAlertCustomdialog.findViewById(R.id.btnMoveToBottom);
+                Button btnSetFinished = (Button) menuAlertCustomdialog.findViewById(R.id.btnSetFinished);
+                Button btnDelete = (Button) menuAlertCustomdialog.findViewById(R.id.btnDelete);
+
+                btnCopyTitle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String text = searchData.get(position).getTitle();
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText(text, text);
                         clipboard.setPrimaryClip(clip);
-                        return true;
+                        menuAlertDialog.dismiss();
+                    }
+                });
 
-                    case R.id.changeTitle:
+                btnChangeTitle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        menuAlertDialog.dismiss();
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                         View alertCustomdialog = LayoutInflater.from(ListView.this).inflate(R.layout.layout_change_title,null);
                         dialogBuilder.setView(alertCustomdialog);
@@ -114,14 +129,14 @@ public class ListView extends AppCompatActivity {
                         alertDialog.show();
 
                         EditText input = (EditText) alertCustomdialog.findViewById(R.id.txtChangeTitle);
-                        input.setText(searchData.get(menuPosition).getTitle());
+                        input.setText(searchData.get(position).getTitle());
                         Button btnSet = (Button) alertCustomdialog.findViewById(R.id.btnSetTitle);
                         Button btnCancel = (Button) alertCustomdialog.findViewById(R.id.btnCancelTitle);
 
                         btnSet.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                searchData.get(menuPosition).setTitle(input.getText().toString());
+                                searchData.get(position).setTitle(input.getText().toString());
                                 itemChanged();
                                 alertDialog.dismiss();
                             }
@@ -133,43 +148,53 @@ public class ListView extends AppCompatActivity {
                                 alertDialog.dismiss();
                             }
                         });
-                        return true;
+                    }
+                });
 
-                    case R.id.moveToTop:
-                        searchData.clear();
+                btnMoveToTop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        searchData.remove(item);
+                        searchData.add(0, item);
+                        mainData.remove(item);
+                        mainData.add(0, item);
+                        itemChanged();
+                        menuAlertDialog.dismiss();
+                    }
+                });
+
+                btnMoveToBottom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        searchData.remove(item);
                         searchData.add(item);
                         mainData.remove(item);
-                        searchData.addAll(mainData);
-                        mainData.clear();
-                        mainData.addAll(searchData);
+                        mainData.add(item);
                         itemChanged();
-                        return true;
+                        menuAlertDialog.dismiss();
+                    }
+                });
 
-                    case R.id.moveToBottom:
-                        searchData.clear();
-                        mainData.remove(item);
-                        searchData.addAll(mainData);
-                        searchData.add(item);
-                        mainData.clear();
-                        mainData.addAll(searchData);
-                        itemChanged();
-                        return true;
-
-                    case R.id.finished:
-                        searchData.get(menuPosition).toggleFinished();
+                btnSetFinished.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        searchData.get(position).toggleFinished();
                         adapter.dataChanged(searchData);
-                        adapter.notifyItemChanged(menuPosition);
+                        adapter.notifyItemChanged(position);
                         itemChanged();
-                        return true;
+                        menuAlertDialog.dismiss();
+                    }
+                });
 
-                    case R.id.deleteItem:
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                         searchData.remove(item);
                         mainData.remove(item);
                         itemChanged();
-                        return true;
-
-                    default: return false;
-                }
+                        menuAlertDialog.dismiss();
+                    }
+                });
             }
         });
 
