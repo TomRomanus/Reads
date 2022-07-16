@@ -6,46 +6,72 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnManga"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="30dp"
+        android:drawableRight="@drawable/ic_next"
+        android:text="Manga"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSeries"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:drawableRight="@drawable/ic_next"
+        android:text="Series"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAnime" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAnime"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:drawableRight="@drawable/ic_next"
+        android:text="anime"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnManga" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBooks"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:drawableRight="@drawable/ic_next"
+        android:text="Books"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSeries" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manga"
-        app:layout_constraintBottom_toTopOf="@+id/btnAnime"
+        android:layout_marginTop="80dp"
+        android:text="Reads"
+        android:textColor="@color/mint_cream"
+        android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnSeries"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Series"
-        app:layout_constraintBottom_toTopOf="@+id/btnBooks"
-        app:layout_constraintEnd_toEndOf="@+id/btnAnime"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/btnAnime"
-        app:layout_constraintTop_toBottomOf="@+id/btnAnime" />
-
-    <Button
-        android:id="@+id/btnAnime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="anime"
-        app:layout_constraintBottom_toTopOf="@+id/btnSeries"
-        app:layout_constraintEnd_toEndOf="@+id/btnManga"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/btnManga"
-        app:layout_constraintTop_toBottomOf="@+id/btnManga" />
-
-    <Button
-        android:id="@+id/btnBooks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Books"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnSeries"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/btnSeries"
-        app:layout_constraintTop_toBottomOf="@+id/btnSeries" />
 </androidx.constraintlayout.widget.ConstraintLayout>
