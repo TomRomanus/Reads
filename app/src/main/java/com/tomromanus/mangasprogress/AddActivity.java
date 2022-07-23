@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class AddActivity extends AppCompatActivity {
-    private TextView txtTitle;
-    private TextView txtAmountEntered;
+    private TextView txtTitle, txtAmountEntered;
     private String type;
     private DataHandler dataHandler;
 
@@ -21,14 +21,17 @@ public class AddActivity extends AppCompatActivity {
 
         txtTitle = findViewById(R.id.txtTitle);
         txtAmountEntered = findViewById(R.id.txtAmountEntered);
-        TextView txtAmountRead = findViewById(R.id.txtAmountRead);
 
         type = getIntent().getStringExtra("type");
         dataHandler = new TextFileDataHandler(type);
 
-        if(type.equals("Animes") || type.equals("Series")) txtAmountRead.setText("Episodes watched");
-        else if(type.equals("Books")) txtAmountRead.setText("Pages read");
-        else txtAmountRead.setText("Chapters read");
+        TextView txtAmountRead = findViewById(R.id.txtAmountRead);
+        if(type.equals("Animes") || type.equals("Series"))
+            txtAmountRead.setText(getResources().getString(R.string.episodes_watched));
+        else if(type.equals("Books"))
+            txtAmountRead.setText(getResources().getString(R.string.pages_read));
+        else
+            txtAmountRead.setText(getResources().getString(R.string.chapters_read));
     }
 
     public void onBtnCancel_clicked(View view) {
@@ -38,32 +41,32 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void onBtnSaveAdd_clicked(View view) {
-            if (saveToFile()) {
-                Intent intent = new Intent(this, ListView.class);
-                intent.putExtra("type", type);
-                startActivity(intent);
-            }
+        if (saveToFile()) {
+            Intent intent = new Intent(this, ListView.class);
+            intent.putExtra("type", type);
+            startActivity(intent);
+        }
     }
 
     private boolean saveToFile() {
-        boolean returnBoolean = false;
         String title = txtTitle.getText().toString();
         String amountWatched = txtAmountEntered.getText().toString();
 
-        if (!title.equals("")) {
+        if(!title.isEmpty())
+        {
             title = toUpperCase(title);
-            if(amountWatched.equals(""))
-                amountWatched = "0";
+            if(amountWatched.isEmpty()) amountWatched = "0";
 
             Item item = new Item(title, Integer.parseInt(amountWatched),false);
-            if(dataHandler.addData(item, this))
-                returnBoolean = true;
-
-        } else {
-            Toast.makeText(this, "Please fill in title", Toast.LENGTH_SHORT).show();
+            return dataHandler.addData(item, this);
+        }
+        else
+        {
+            Snackbar.make(getWindow().getDecorView().getRootView(), "Please fill in title", Snackbar.LENGTH_SHORT)
+                    .setAnchorView(txtTitle)
+                    .show();
             return false;
         }
-        return returnBoolean;
     }
 
     private String toUpperCase(String text) {

@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Reads</string>
+    <!-- AddActivity -->
+    <string name="episodes_watched">Episodes watched</string>
+    <string name="pages_read">Pages read</string>
+    <string name="chapters_read">Chapters read</string>
 
-    <!-- Popup Menu List -->
-    <string name="copy_title">Copy title</string>
-    <string name="move_to_top">Move to top</string>
-    <string name="move_to_bottom">Move to bottom</string>
-    <string name="finished">Finished</string>
-    <string name="switch_type">Switch type</string>
-    <string name="delete">Delete</string>
-    <string name="change_title">Change Title</string>
+    <!-- ListView -->
+    <string name="saving">Saving…</string>
+    <string name="saving_error">Unable to save</string>
+    <string name="retry">retry</string>
 </resources>

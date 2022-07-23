@@ -61,13 +61,15 @@
         android:layout_width="365dp"
         android:layout_height="48dp"
         android:layout_marginBottom="2dp"
+        android:backgroundTint="@color/mint_cream"
         android:ems="10"
+        android:hint="Enter search here"
+        android:textColorHint="#a3a6a2"
         android:inputType="textPersonName"
+        android:textColor="@color/mint_cream"
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/mint_cream"
-        android:backgroundTint="@color/mint_cream"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnBack"

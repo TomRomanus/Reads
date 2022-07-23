@@ -3,12 +3,10 @@ package com.tomromanus.mangasprogress;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -17,7 +15,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -40,6 +37,7 @@ public class ListView extends AppCompatActivity {
     private Button btnSave;
     private TextView txtSearch;
     private MyAdapter adapter;
+    private RecyclerView recyclerView;
 
     private final Context context = this;
 
@@ -57,32 +55,34 @@ public class ListView extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         txtSearch = findViewById(R.id.txtSearch);
         txtSearch.setVisibility(View.GONE);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
         adapter = new MyAdapter(this, searchData);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        initialiseAdapter();
+        initialiseItemTouchHelper();
+    }
+
+    private void initialiseAdapter() {
         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void OnBtnSubtractWatchedClicked(int position) {
-                Item item = searchData.get(position);
-                item.subtractAmountWatched();
+                searchData.get(position).subtractAmountWatched();
                 itemChanged();
             }
 
             @Override
             public void OnBtnSubtractWatchedLongClicked(int position) {
-                Item item = searchData.get(position);
-                item.resetAmountWatched();
+                searchData.get(position).resetAmountWatched();
                 itemChanged();
             }
 
             @Override
             public void OnBtnAddWatchedClicked(int position) {
-                Item item = searchData.get(position);
-                item.addAmountWatched();
+                searchData.get(position).addAmountWatched();
                 itemChanged();
             }
 
@@ -91,168 +91,118 @@ public class ListView extends AppCompatActivity {
                 Item item = searchData.get(position);
 
                 AlertDialog.Builder menuDialogBuilder = new AlertDialog.Builder(context);
-                View menuAlertCustomdialog = LayoutInflater.from(ListView.this).inflate(R.layout.layout_item_menu,null);
-                menuAlertCustomdialog.setElevation(100);
-                menuDialogBuilder.setView(menuAlertCustomdialog);
+                View menuAlertCustomDialog = LayoutInflater.from(ListView.this).inflate(R.layout.layout_item_menu,null);
+                menuDialogBuilder.setView(menuAlertCustomDialog);
                 AlertDialog menuAlertDialog = menuDialogBuilder.create();
                 menuAlertDialog.show();
 
-                TextView txtMenuTitle = (TextView) menuAlertCustomdialog.findViewById(R.id.txtMenuTitle);
+                TextView txtMenuTitle = menuAlertCustomDialog.findViewById(R.id.txtMenuTitle);
                 txtMenuTitle.setText(item.getTitle());
 
-                Button btnCopyTitle = (Button) menuAlertCustomdialog.findViewById(R.id.btnCopyTitle);
-                Button btnChangeTitle = (Button) menuAlertCustomdialog.findViewById(R.id.btnChangeTitle);
-                Button btnMoveToTop = (Button) menuAlertCustomdialog.findViewById(R.id.btnMoveToTop);
-                Button btnMoveToBottom = (Button) menuAlertCustomdialog.findViewById(R.id.btnMoveToBottom);
-                Button btnSetFinished = (Button) menuAlertCustomdialog.findViewById(R.id.btnSetFinished);
-                Button btnDelete = (Button) menuAlertCustomdialog.findViewById(R.id.btnDelete);
-
-                btnCopyTitle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String text = searchData.get(position).getTitle();
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText(text, text);
-                        clipboard.setPrimaryClip(clip);
-                        menuAlertDialog.dismiss();
-                    }
+                Button btnCopyTitle = menuAlertCustomDialog.findViewById(R.id.btnCopyTitle);
+                btnCopyTitle.setOnClickListener(view -> {
+                    String text = searchData.get(position).getTitle();
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText(text, text);
+                    clipboard.setPrimaryClip(clip);
+                    menuAlertDialog.dismiss();
                 });
 
-                btnChangeTitle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        menuAlertDialog.dismiss();
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                        View alertCustomdialog = LayoutInflater.from(ListView.this).inflate(R.layout.layout_change_title,null);
-                        dialogBuilder.setView(alertCustomdialog);
-                        AlertDialog alertDialog = dialogBuilder.create();
-                        alertDialog.show();
+                Button btnChangeTitle = menuAlertCustomDialog.findViewById(R.id.btnChangeTitle);
+                btnChangeTitle.setOnClickListener(view -> {
+                    menuAlertDialog.dismiss();
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                    View alertCustomDialog = LayoutInflater.from(ListView.this).inflate(R.layout.layout_change_title,null);
+                    dialogBuilder.setView(alertCustomDialog);
+                    AlertDialog alertDialog = dialogBuilder.create();
+                    alertDialog.show();
 
-                        EditText input = (EditText) alertCustomdialog.findViewById(R.id.txtChangeTitle);
-                        input.setText(searchData.get(position).getTitle());
-                        Button btnSet = (Button) alertCustomdialog.findViewById(R.id.btnSetTitle);
-                        Button btnCancel = (Button) alertCustomdialog.findViewById(R.id.btnCancelTitle);
+                    EditText input = alertCustomDialog.findViewById(R.id.txtChangeTitle);
+                    input.setText(searchData.get(position).getTitle());
+                    Button btnSet = alertCustomDialog.findViewById(R.id.btnSetTitle);
+                    Button btnCancel = alertCustomDialog.findViewById(R.id.btnCancelTitle);
 
-                        btnSet.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                searchData.get(position).setTitle(input.getText().toString());
-                                itemChanged();
-                                alertDialog.dismiss();
-                            }
-                        });
-
-                        btnCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                alertDialog.dismiss();
-                            }
-                        });
-                    }
-                });
-
-                btnMoveToTop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        searchData.remove(item);
-                        searchData.add(0, item);
-                        mainData.remove(item);
-                        mainData.add(0, item);
+                    btnSet.setOnClickListener(view1 -> {
+                        searchData.get(position).setTitle(input.getText().toString());
                         itemChanged();
-                        menuAlertDialog.dismiss();
-                    }
+                        alertDialog.dismiss();
+                    });
+
+                    btnCancel.setOnClickListener(view12 -> alertDialog.dismiss());
                 });
 
-                btnMoveToBottom.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        searchData.remove(item);
-                        searchData.add(item);
-                        mainData.remove(item);
-                        mainData.add(item);
-                        itemChanged();
-                        menuAlertDialog.dismiss();
-                    }
+                Button btnMoveToTop = menuAlertCustomDialog.findViewById(R.id.btnMoveToTop);
+                btnMoveToTop.setOnClickListener(view -> {
+                    searchData.remove(item);
+                    searchData.add(0, item);
+                    mainData.remove(item);
+                    mainData.add(0, item);
+                    itemChanged();
+                    menuAlertDialog.dismiss();
                 });
 
-                btnSetFinished.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        searchData.get(position).toggleFinished();
-                        adapter.dataChanged(searchData);
-                        adapter.notifyItemChanged(position);
-                        itemChanged();
-                        menuAlertDialog.dismiss();
-                    }
+                Button btnMoveToBottom = menuAlertCustomDialog.findViewById(R.id.btnMoveToBottom);
+                btnMoveToBottom.setOnClickListener(view -> {
+                    searchData.remove(item);
+                    searchData.add(item);
+                    mainData.remove(item);
+                    mainData.add(item);
+                    itemChanged();
+                    menuAlertDialog.dismiss();
                 });
 
-                btnDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        searchData.remove(item);
-                        mainData.remove(item);
-                        itemChanged();
-                        menuAlertDialog.dismiss();
-                    }
+                Button btnSetFinished = menuAlertCustomDialog.findViewById(R.id.btnSetFinished);
+                btnSetFinished.setOnClickListener(view -> {
+                    searchData.get(position).toggleFinished();
+                    adapter.dataChanged(searchData);
+                    adapter.notifyItemChanged(position);
+                    itemChanged();
+                    menuAlertDialog.dismiss();
+                });
+
+                Button btnDelete = menuAlertCustomDialog.findViewById(R.id.btnDelete);
+                btnDelete.setOnClickListener(view -> {
+                    searchData.remove(item);
+                    mainData.remove(item);
+                    itemChanged();
+                    menuAlertDialog.dismiss();
                 });
             }
         });
+    }
 
-        SwipeableRecyclerViewTouchListener swipeTouchListener =
-                new SwipeableRecyclerViewTouchListener(recyclerView,
-                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
-                            @Override
-                            public boolean canSwipeLeft(int position) {
-                                return false;
-                            }
+    private void initialiseItemTouchHelper() {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+                int position_dragged = dragged.getBindingAdapterPosition();
+                int position_target = target.getBindingAdapterPosition();
 
-                            @Override
-                            public boolean canSwipeRight(int position) {
-                                return true;
-                            }
+                Collections.swap(mainData, position_dragged, position_target);
+                Collections.swap(searchData, position_dragged, position_target);
 
-                            @Override
-                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    Item item = searchData.get(position);
-                                    mainData.remove(item);
-                                    searchData.remove(item);
-                                    adapter.notifyItemRemoved(position);
-                                }
-                                itemChanged();
-                            }
+                adapter.notifyItemMoved(position_dragged, position_target);
 
-                            @Override
-                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                onDismissedBySwipeLeft(recyclerView, reverseSortedPositions);
-                            }
-                        });
-        recyclerView.addOnItemTouchListener(swipeTouchListener);
+                btnSave.setTextColor(getResources().getColor(R.color.red_munsell, getApplicationContext().getTheme()));
+                btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
 
-        if(searchData.size() == mainData.size()) {
-            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-                @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                    int position_dragged = dragged.getBindingAdapterPosition();
-                    int position_target = target.getBindingAdapterPosition();
+                return false;
+            }
 
-                    Collections.swap(mainData, position_dragged, position_target);
-                    Collections.swap(searchData, position_dragged, position_target);
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                if(direction == ItemTouchHelper.RIGHT) {
+                    int position = viewHolder.getBindingAdapterPosition();
+                    Item item = searchData.get(position);
+                    mainData.remove(item);
+                    searchData.remove(item);
+                    adapter.notifyItemRemoved(position);
+                    itemChanged();
 
-                    adapter.notifyItemMoved(position_dragged, position_target);
-
-                    btnSave.setTextColor(getResources().getColor(R.color.red_munsell, getApplicationContext().getTheme()));
-                    btnSave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_red, 0, 0, 0);
-
-                    return false;
                 }
-
-                @Override
-                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                }
-            });
-            helper.attachToRecyclerView(recyclerView);
-        }
+            }
+        });
+        helper.attachToRecyclerView(recyclerView);
     }
 
     private void itemChanged() {
@@ -263,7 +213,7 @@ public class ListView extends AppCompatActivity {
     }
 
     public void onBtnBack_clicked(View view) {
-        Snackbar snackbar = Snackbar.make(view, "Saving...", Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(view, R.string.saving, Snackbar.LENGTH_SHORT);
         snackbar.show();
         if(dataHandler.saveData(mainData, this)) {
             snackbar.dismiss();
@@ -272,12 +222,8 @@ public class ListView extends AppCompatActivity {
         }
         else {
             snackbar = Snackbar
-                    .make(view, "Unable to save", Snackbar.LENGTH_LONG)
-                    .setAction("retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            onBtnBack_clicked(view);
-                        }});
+                    .make(view, R.string.saving_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, this::onBtnBack_clicked);
             snackbar.show();
         }
     }
@@ -294,13 +240,24 @@ public class ListView extends AppCompatActivity {
     }
 
     public void onBtnAdd_clicked(View view) {
-        Intent intent = new Intent(this, AddActivity.class);
-        intent.putExtra("type", type);
-        startActivity(intent);
+        Snackbar snackbar = Snackbar.make(view, R.string.saving, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+        if(dataHandler.saveData(mainData, this)) {
+            snackbar.dismiss();
+            Intent intent = new Intent(this, AddActivity.class);
+            intent.putExtra("type", type);
+            startActivity(intent);
+        }
+        else {
+            snackbar = Snackbar
+                    .make(view, R.string.saving_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, this::onBtnBack_clicked);
+            snackbar.show();
+        }
     }
 
     public void onBtnSave_clicked(View view) {
-        Snackbar snackbar = Snackbar.make(view, "Saving...", Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(view, R.string.saving, Snackbar.LENGTH_SHORT);
         snackbar.show();
         if(dataHandler.saveData(mainData, this)) {
             snackbar.dismiss();
@@ -309,12 +266,8 @@ public class ListView extends AppCompatActivity {
         }
         else {
             snackbar = Snackbar
-                    .make(view, "Unable to save", Snackbar.LENGTH_LONG)
-                    .setAction("retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            onBtnSave_clicked(view);
-                        }});
+                    .make(view, R.string.saving_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, this::onBtnSave_clicked);
             snackbar.show();
         }
     }

@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +18,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     private final Context context;
     private ArrayList<Item> data;
     private OnItemClickListener itemClickListener;
-    private PopupMenu.OnMenuItemClickListener menuItemClickListener;
 
     public interface OnItemClickListener {
         void OnBtnSubtractWatchedClicked(int position);
@@ -36,10 +34,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         this.itemClickListener = listener;
     }
 
-    public void setMenuItemClickListener(PopupMenu.OnMenuItemClickListener menuItemClickListener) {
-        this.menuItemClickListener = menuItemClickListener;
-    }
-
     public MyAdapter(Context context, ArrayList<Item> data) {
         this.context = context;
         this.data = data;
@@ -50,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.layout_item, parent, false);
-        return new ViewHolder(v, itemClickListener, menuItemClickListener);
+        return new ViewHolder(v, itemClickListener);
     }
 
     @Override
@@ -59,11 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
         holder.txtTitle.setText(item.getTitle());
         holder.txtAmountWatched.setText(String.valueOf(item.getAmountWatched()));
-
-        if(item.getAmountWatched() == 0)
-            holder.btnSubtractWatched.setEnabled(false);
-        if(item.getAmountWatched() > 0)
-            holder.btnSubtractWatched.setEnabled(true);
+        holder.btnSubtractWatched.setEnabled(item.getAmountWatched() > 0);
 
         if(item.isFinished())
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.cadet_blue_crayola, context.getTheme()));
@@ -83,18 +73,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         public ImageButton btnMenu;
         public CardView cardView;
 
-        public ViewHolder(View itemView,
-                          OnItemClickListener listener,
-                          PopupMenu.OnMenuItemClickListener menuItemClickListener) {
+        public ViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
 
             txtTitle = itemView.findViewById(R.id.txtTitleItem);
             txtAmountWatched = itemView.findViewById(R.id.txtAmountWatchedItem);
-            btnSubtractWatched = itemView.findViewById(R.id.btnSubstractWatched);
-            btnAddWatched = itemView.findViewById(R.id.btnAddWatched);
-            btnMenu = itemView.findViewById(R.id.btnMenu);
             cardView = itemView.findViewById(R.id.cardView);
 
+            btnMenu = itemView.findViewById(R.id.btnMenu);
             btnMenu.setOnClickListener(v -> {
                 if(listener != null) {
                     int position = getAbsoluteAdapterPosition();
@@ -104,6 +90,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 }
             });
 
+            btnAddWatched = itemView.findViewById(R.id.btnAddWatched);
             btnAddWatched.setOnClickListener(v -> {
                 if(listener != null) {
                     int position = getAbsoluteAdapterPosition();
@@ -113,6 +100,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 }
             });
 
+            btnSubtractWatched = itemView.findViewById(R.id.btnSubstractWatched);
             btnSubtractWatched.setOnClickListener(v -> {
                 if(listener != null) {
                     int position = getAbsoluteAdapterPosition();
@@ -120,7 +108,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                         listener.OnBtnSubtractWatchedClicked(position);
                 }
             });
-
             btnSubtractWatched.setOnLongClickListener(v -> {
                 if(listener != null) {
                     int position = getAbsoluteAdapterPosition();

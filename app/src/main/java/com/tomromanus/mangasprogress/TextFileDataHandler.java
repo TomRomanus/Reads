@@ -1,7 +1,6 @@
 package com.tomromanus.mangasprogress;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +17,6 @@ public class TextFileDataHandler implements DataHandler{
 
 
     public TextFileDataHandler(String type) {
-        //System.out.println(type + filepath);
         this.filepath = type + filepath;
     }
 
@@ -41,8 +39,6 @@ public class TextFileDataHandler implements DataHandler{
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, "unable to save please try again", Toast.LENGTH_LONG).show();
-
         } finally {
             try {
                 assert pw != null;
@@ -71,9 +67,7 @@ public class TextFileDataHandler implements DataHandler{
 
                 while ((line = br.readLine()) != null) {
                     String[] lineData = line.split("\\$");
-                    boolean finished = false;
-                    if (lineData[2].equals("true"))
-                        finished = true;
+                    boolean finished = lineData[2].equals("true");
                     data.add(new Item(lineData[0], Integer.parseInt(lineData[1]), finished));
                 }
 
